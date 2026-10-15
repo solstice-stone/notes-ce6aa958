@@ -52,6 +52,10 @@ h2 span{color:var(--mute);font-weight:400;font-size:13px}h2:after{content:"";fle
 #lock button{width:100%;height:44px;border:0;border-radius:12px;background:var(--acc);color:#fff;font:inherit;font-weight:500;cursor:pointer}
 #lock .err{color:#c2410c;font-size:13px;min-height:20px;margin-top:10px}
 .lockout{position:fixed;right:20px;bottom:16px;font-size:12px;color:var(--mute);cursor:pointer;background:none;border:0}
+.links{display:flex;gap:12px;align-items:center;margin:-4px 0 14px}.modal .links{margin:4px 0 0}
+.links a{color:#9a9a9e;display:inline-flex;transition:color .15s}.links a:hover{color:var(--acc)}.links svg{width:18px;height:18px;fill:currentColor}
+.ppl{display:flex;flex-direction:column;gap:8px}.ppl .p{display:flex;align-items:center;gap:10px}.ppl .p img{width:28px;height:28px;border-radius:50%;object-fit:cover}
+.ppl .p .links{margin:0 0 0 auto}
 </style></head><body>
 <div id="lock"><form id="lf"><h1>项目人才表</h1><p>请输入访问密码</p>
 <input type="password" id="pw" autocomplete="current-password" autofocus placeholder="Password">
@@ -84,13 +88,19 @@ LOAD().then(j=>{D=j.entries;
 const PAL=["#94a3b8","#a5b4fc","#93c5fd","#86c5b5","#d6b38a","#c4a1d6","#e3a3a3"];
 const ini=e=>{const n=(e.company&&!/暂无|新公司/.test(e.company)?e.name:e.name).replace(/[@（(].*$/,"").trim()||e.name;const w=n.split(/[\s/]+/).filter(Boolean);const t=/[\u4e00-\u9fff]/.test(n)?n[0]:(w[0][0]+(w[1]?w[1][0]:"")).toUpperCase();let s=0;for(const c of e.id)s+=c.charCodeAt(0);return `<span class="av ini" style="background:${PAL[s%PAL.length]}">${esc(t)}</span>`};
 const avatar=e=>{const L=(e.avatars&&e.avatars.length>1)?e.avatars.slice(0,3):null;if(L)return `<span class="stack">${L.map(a=>`<img class="av" src="${esc(a)}" alt="">`).join("")}</span>`;return e.avatar?`<img class="av" src="${esc(e.avatar)}" alt="" onerror="this.outerHTML=''">`:ini(e)};
+const IC={x:'<svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.8l-5.3-6.9L4.8 22H1.7l8.1-9.3L1 2h7l4.8 6.3L18.9 2zm-1.2 18h1.7L7.4 3.9H5.6L17.7 20z"/></svg>',
+li:'<svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>',
+web:'<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 6h-2.9a15.7 15.7 0 0 0-1.4-3.6A8 8 0 0 1 18.9 8zM12 4c.8 1.2 1.5 2.5 1.9 4h-3.8c.4-1.5 1.1-2.8 1.9-4zM4.3 14a8.2 8.2 0 0 1 0-4h3.4a16.5 16.5 0 0 0 0 4H4.3zm.8 2h2.9c.3 1.3.8 2.5 1.4 3.6A8 8 0 0 1 5.1 16zM8 8H5.1a8 8 0 0 1 4.3-3.6C8.8 5.5 8.4 6.7 8 8zm4 12c-.8-1.2-1.5-2.5-1.9-4h3.8c-.4 1.5-1.1 2.8-1.9 4zm2.3-6H9.7a14.7 14.7 0 0 1 0-4h4.6a14.7 14.7 0 0 1 0 4zm.3 5.6c.6-1.1 1.1-2.3 1.4-3.6h2.9a8 8 0 0 1-4.3 3.6zm1.7-5.6a16.5 16.5 0 0 0 0-4h3.4a8.2 8.2 0 0 1 0 4h-3.4z"/></svg>'};
+const ico=(k,u,t)=>u?`<a href="${esc(u)}" target="_blank" rel="noopener" title="${t}" onclick="event.stopPropagation()">${IC[k]}</a>`:"";
+const links=(x,l,w)=>{const s=ico("x",x,"X")+ico("li",l,"LinkedIn")+ico("web",w,"Website");return s?`<div class="links">${s}</div>`:""};
 function card(e,i){const inv=e.investors||[],f=[...new Set(inv.map(fund))].slice(0,3);
  return `<div class="card" onclick="openD(${i})"><div class="hd">${avatar(e)}<div><div class="name">${lk(e.name,e.x)}</div><div class="co">${lk(e.company,e.website)}</div></div></div>
- <div class="tl">${esc(e.tagline||e.desc)}</div><div class="badges"><span class="b s">${esc(e.stage)}</span><span class="b">${esc(e.sector)}</span></div>
+ <div class="tl">${esc(e.tagline||e.desc)}</div><div class="badges"><span class="b s">${esc(e.stage)}</span><span class="b">${esc(e.sector)}</span></div>${links(e.x,e.linkedin,e.website)}
  <div class="foot"><span><b>${esc(e.funding_short||"—")}</b></span>${inv.length?`<span>${inv.length} 位投资人关注 · ${f.map(esc).join("、")}</span>`:""}</div></div>`}
 function openD(i){const e=D[i];document.getElementById("md").innerHTML=`<button class="x" onclick="closeD()">×</button>
  <div class="mh">${avatar(e)}<div><h3>${lk(e.name,e.x)}</h3><div class="co">${lk(e.company,e.website)}</div></div></div>
  <div class="badges"><span class="b s">${esc(e.stage)}</span><span class="b">${esc(e.sector)}</span><span class="b">${esc(e.contact)}</span>${e.interest?`<span class="b">兴趣 ${esc(e.interest)}</span>`:""}</div>
+ ${links(e.x,e.linkedin,e.website)}${(e.people||[]).length?`<div class="row"><div class="k">成员</div><div class="ppl">${e.people.map(p=>`<div class="p">${p.avatar?`<img src="${esc(p.avatar)}" alt="">`:""}<span>${lk(p.name,p.x)}</span>${links(p.x,p.linkedin,"")}</div>`).join("")}</div></div>`:""}
  <div class="row"><div class="k">简介</div>${esc(e.desc)}</div>
  <div class="row"><div class="k">融资</div>${esc(e.funding)||"—"}<div>${(e.sources||[]).map(s=>lk(s.text,s.url)).join(" · ")}</div></div>
  <div class="row"><div class="k">关注他的投资人（${(e.investors||[]).length}）</div><div class="chips">${(e.investors||[]).map(x=>`<span class="b">${esc(x)}</span>`).join("")||"—"}</div></div>
