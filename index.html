@@ -1,0 +1,106 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Talent DB · 项目人才表</title>
+<style>
+:root{--bg:#f7f6f3;--card:#fff;--ink:#1c1c1e;--mute:#8a8a8e;--line:#ecebe7;--acc:#3b5bdb;--accs:#eef1fd}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.7 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei","Helvetica Neue",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}a:hover{color:var(--acc)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+header.wrap{padding-top:52px;padding-bottom:22px}header h1{margin:0;font-size:26px;font-weight:600;letter-spacing:.5px}
+header p{margin:4px 0 0;color:var(--mute);font-size:14px}
+.bar{position:sticky;top:0;z-index:5;background:rgba(247,246,243,.92);backdrop-filter:blur(8px);padding:14px 0;border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;gap:10px;flex-wrap:wrap}
+.bar input,.bar select{height:36px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:0 12px;font:inherit;font-size:14px;color:var(--ink);outline:none}
+.bar input{flex:1;min-width:180px}.bar input:focus,.bar select:focus{border-color:var(--acc)}
+section{margin:44px 0 8px}
+h2{display:flex;align-items:baseline;gap:10px;font-size:15px;font-weight:600;letter-spacing:1px;margin:0 0 18px;color:#444}
+h2 span{color:var(--mute);font-weight:400;font-size:13px}h2:after{content:"";flex:1;height:1px;background:var(--line);margin-left:6px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.grid{grid-template-columns:1fr}.wrap{padding:0 18px}header.wrap{padding-top:34px;padding-bottom:14px}.bar .wrap{display:grid;grid-template-columns:1fr 1fr}.bar input{grid-column:1/-1}}
+.card{background:var(--card);border-radius:16px;padding:24px 24px 20px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 6px 20px rgba(0,0,0,.04);cursor:pointer;transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column;gap:6px}
+.card:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(0,0,0,.04),0 12px 28px rgba(0,0,0,.07)}
+.name{font-size:17px;font-weight:600;line-height:1.45}
+.co{font-size:14px;color:var(--mute)}
+.tl{margin:6px 0 4px;color:#3a3a3c}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 14px}
+.b{font-size:12px;line-height:1;padding:6px 9px;border-radius:999px;background:#f2f1ee;color:#555}.b.s{background:var(--accs);color:var(--acc)}
+.foot{margin-top:auto;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--mute);display:flex;flex-direction:column;gap:2px}
+.foot b{color:var(--ink);font-weight:500}
+.ov{position:fixed;inset:0;background:rgba(20,20,22,.35);display:none;align-items:center;justify-content:center;z-index:20;padding:20px}
+.ov.on{display:flex}
+.modal{background:#fff;border-radius:20px;max-width:640px;width:100%;max-height:86vh;overflow:auto;padding:36px 40px;box-shadow:0 20px 60px rgba(0,0,0,.2);position:relative}
+.x{position:absolute;top:16px;right:20px;font-size:22px;color:var(--mute);cursor:pointer;border:0;background:none}
+.modal h3{margin:0;font-size:22px}.modal .co{font-size:15px;margin-bottom:10px}
+.row{margin-top:20px}.row .k{font-size:12px;letter-spacing:1px;color:var(--mute);margin-bottom:4px}
+.row a{color:var(--acc)}.chips{display:flex;flex-wrap:wrap;gap:6px}
+.tlist{list-style:none;padding:0;margin:0}.tlist li{padding-left:14px;border-left:2px solid var(--line);margin-bottom:6px}
+.tlist small{color:var(--mute);margin-right:8px}
+.empty{color:var(--mute);padding:60px 0;text-align:center}
+.av{flex:none;width:44px;height:44px;border-radius:50%;object-fit:cover;background:#eee;box-shadow:0 0 0 2px #fff,0 1px 3px rgba(0,0,0,.08)}
+.ini{display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#fff}
+.stack{display:flex;flex:none}.stack .av{width:34px;height:34px}.stack .av+.av{margin-left:-12px}
+.hd{display:flex;gap:14px;align-items:center}.hd>div{min-width:0}
+.mh{display:flex;gap:18px;align-items:center;margin-bottom:16px}.mh .av{width:72px;height:72px;font-size:24px}.mh .stack .av{width:56px;height:56px}.mh .stack .av+.av{margin-left:-18px}
+.mh .co{margin-bottom:0}
+#lock{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+#lock form{background:#fff;border-radius:20px;padding:40px 36px;width:100%;max-width:380px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 12px 40px rgba(0,0,0,.07);text-align:center}
+#lock h1{margin:0 0 4px;font-size:22px;font-weight:600}#lock p{margin:0 0 24px;color:var(--mute);font-size:14px}
+#lock input[type=password]{width:100%;height:44px;border:1px solid var(--line);border-radius:12px;padding:0 14px;font:inherit;outline:none;text-align:center;letter-spacing:2px}
+#lock input[type=password]:focus{border-color:var(--acc)}
+#lock label{display:flex;gap:8px;align-items:center;justify-content:center;margin:14px 0 20px;font-size:13px;color:var(--mute);cursor:pointer}
+#lock button{width:100%;height:44px;border:0;border-radius:12px;background:var(--acc);color:#fff;font:inherit;font-weight:500;cursor:pointer}
+#lock .err{color:#c2410c;font-size:13px;min-height:20px;margin-top:10px}
+.lockout{position:fixed;right:20px;bottom:16px;font-size:12px;color:var(--mute);cursor:pointer;background:none;border:0}
+</style></head><body>
+<div id="lock"><form id="lf"><h1>项目人才表</h1><p>请输入访问密码</p>
+<input type="password" id="pw" autocomplete="current-password" autofocus placeholder="Password">
+<label><input type="checkbox" id="rem"> 在此设备上记住</label><button type="submit" id="lb">进入</button><div class="err" id="le"></div></form></div>
+<button class="lockout" id="lo" style="display:none" onclick="localStorage.removeItem('tdb_pw');location.reload()">退出并忘记密码</button>
+<header class="wrap"><h1>项目人才表</h1><p id="meta">Talent &amp; Project DB</p></header>
+<div class="bar"><div class="wrap"><input id="q" placeholder="搜索名字、公司、方向、投资人">
+<select id="fs"><option value="">阶段</option></select><select id="fx"><option value="">方向</option></select>
+<select id="fi"><option value="">兴趣度</option></select><select id="fc"><option value="">联系状态</option></select></div></div>
+<main class="wrap" id="out"></main><div style="height:80px"></div>
+<div class="ov" id="ov"><div class="modal" id="md"></div></div>
+<script>
+const ORDER=["Stealth/未融资","Seed","A","行业信息"],rk=s=>{const i=ORDER.indexOf(s);return i<0?2.5:i};
+const esc=s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const lk=(t,u)=>u?`<a href="${esc(u)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(t)}</a>`:esc(t);
+const fund=s=>{const m=String(s).match(/（(.*?)）/);return m?m[1]:s};
+let D=[];
+async function decrypt(pw){const r=await fetch("data.enc?"+Date.now());const j=await r.json();const b=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+ const km=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveKey"]);
+ const k=await crypto.subtle.deriveKey({name:"PBKDF2",salt:b(j.salt),iterations:j.iter,hash:"SHA-256"},km,{name:"AES-GCM",length:256},false,["decrypt"]);
+ const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv:b(j.iv)},k,b(j.ct));return JSON.parse(new TextDecoder().decode(pt))}
+function unlock(pw,rem){return decrypt(pw).then(j=>{if(rem)localStorage.setItem("tdb_pw",pw);document.getElementById("lock").remove();if(localStorage.getItem("tdb_pw"))document.getElementById("lo").style.display="block";return j})}
+const LOAD=()=>new Promise(res=>{const s=localStorage.getItem("tdb_pw");if(s)unlock(s,false).then(res).catch(()=>localStorage.removeItem("tdb_pw"));
+ document.getElementById("lf").onsubmit=ev=>{ev.preventDefault();const b=document.getElementById("lb");b.textContent="解密中…";
+  unlock(document.getElementById("pw").value,document.getElementById("rem").checked).then(res).catch(()=>{b.textContent="进入";document.getElementById("le").textContent="密码不正确"})}});
+LOAD().then(j=>{D=j.entries;
+ document.getElementById("meta").textContent=`${D.length} 个人物与项目 · 更新于 ${j.updated}`;
+ const fill=(id,v)=>{const s=document.getElementById(id);[...new Set(v)].filter(Boolean).forEach(x=>s.add(new Option(x,x)))};
+ fill("fs",D.map(e=>e.stage).sort((a,b)=>rk(a)-rk(b)));fill("fx",D.map(e=>e.sector).sort());fill("fi",D.map(e=>e.interest||"未设置"));fill("fc",D.map(e=>e.contact));render()});
+const PAL=["#94a3b8","#a5b4fc","#93c5fd","#86c5b5","#d6b38a","#c4a1d6","#e3a3a3"];
+const ini=e=>{const n=(e.company&&!/暂无|新公司/.test(e.company)?e.name:e.name).replace(/[@（(].*$/,"").trim()||e.name;const w=n.split(/[\s/]+/).filter(Boolean);const t=/[\u4e00-\u9fff]/.test(n)?n[0]:(w[0][0]+(w[1]?w[1][0]:"")).toUpperCase();let s=0;for(const c of e.id)s+=c.charCodeAt(0);return `<span class="av ini" style="background:${PAL[s%PAL.length]}">${esc(t)}</span>`};
+const avatar=e=>{const L=(e.avatars&&e.avatars.length>1)?e.avatars.slice(0,3):null;if(L)return `<span class="stack">${L.map(a=>`<img class="av" src="${esc(a)}" alt="">`).join("")}</span>`;return e.avatar?`<img class="av" src="${esc(e.avatar)}" alt="" onerror="this.outerHTML=''">`:ini(e)};
+function card(e,i){const inv=e.investors||[],f=[...new Set(inv.map(fund))].slice(0,3);
+ return `<div class="card" onclick="openD(${i})"><div class="hd">${avatar(e)}<div><div class="name">${lk(e.name,e.x)}</div><div class="co">${lk(e.company,e.website)}</div></div></div>
+ <div class="tl">${esc(e.tagline||e.desc)}</div><div class="badges"><span class="b s">${esc(e.stage)}</span><span class="b">${esc(e.sector)}</span></div>
+ <div class="foot"><span><b>${esc(e.funding_short||"—")}</b></span>${inv.length?`<span>${inv.length} 位投资人关注 · ${f.map(esc).join("、")}</span>`:""}</div></div>`}
+function openD(i){const e=D[i];document.getElementById("md").innerHTML=`<button class="x" onclick="closeD()">×</button>
+ <div class="mh">${avatar(e)}<div><h3>${lk(e.name,e.x)}</h3><div class="co">${lk(e.company,e.website)}</div></div></div>
+ <div class="badges"><span class="b s">${esc(e.stage)}</span><span class="b">${esc(e.sector)}</span><span class="b">${esc(e.contact)}</span>${e.interest?`<span class="b">兴趣 ${esc(e.interest)}</span>`:""}</div>
+ <div class="row"><div class="k">简介</div>${esc(e.desc)}</div>
+ <div class="row"><div class="k">融资</div>${esc(e.funding)||"—"}<div>${(e.sources||[]).map(s=>lk(s.text,s.url)).join(" · ")}</div></div>
+ <div class="row"><div class="k">关注他的投资人（${(e.investors||[]).length}）</div><div class="chips">${(e.investors||[]).map(x=>`<span class="b">${esc(x)}</span>`).join("")||"—"}</div></div>
+ ${e.notes?`<div class="row"><div class="k">备注</div>${esc(e.notes)}</div>`:""}
+ <div class="row"><div class="k">动态</div><ul class="tlist">${(e.timeline||[]).slice().reverse().map(t=>`<li><small>${t.date}</small>${esc(t.text)}</li>`).join("")}</ul></div>
+ <div class="row" style="color:var(--mute);font-size:13px">首次发现 ${e.first_seen} · 最后更新 ${e.last_updated}</div>`;document.getElementById("ov").classList.add("on")}
+function closeD(){document.getElementById("ov").classList.remove("on")}
+document.getElementById("ov").onclick=ev=>{if(ev.target.id=="ov")closeD()};document.onkeydown=ev=>{if(ev.key=="Escape")closeD()};
+function render(){const q=document.getElementById("q").value.toLowerCase(),v=id=>document.getElementById(id).value;
+ const g={};D.forEach((e,i)=>{if((!v("fs")||e.stage==v("fs"))&&(!v("fx")||e.sector==v("fx"))&&(!v("fi")||(e.interest||"未设置")==v("fi"))&&(!v("fc")||e.contact==v("fc"))&&(!q||JSON.stringify(e).toLowerCase().includes(q)))(g[e.stage]=g[e.stage]||[]).push([e,i])});
+ document.getElementById("out").innerHTML=Object.keys(g).sort((a,b)=>rk(a)-rk(b)).map(s=>`<section><h2>${esc(s)}<span>${g[s].length}</span></h2><div class="grid">${g[s].map(([e,i])=>card(e,i)).join("")}</div></section>`).join("")||`<div class="empty">没有匹配的结果</div>`}
+["q","fs","fx","fi","fc"].forEach(id=>document.getElementById(id).addEventListener("input",render));
+</script></body></html>
